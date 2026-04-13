@@ -3,70 +3,63 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
-import { authService } from "../services/Register.service";
+import { useRouter } from "next/navigation";
+import { registerService } from "../services/Register.service"; 
 
 
-const registerSchema = z.object({
+const schema = z.object({
     username: z.string().min(1, "Username wajib diisi"),
     email: z.string().email("Email tidak valid"),
-    npm: z.string().min(1, "NPM wajib diisi"),
-    password: z.string().min(6, "Password minimal 6 karakter"),
-    role: z.enum(["dosen", "mahasiswa"], {
-        message: "Role wajib dipilih",
-    }),
     kelas: z.string().min(1, "Kelas wajib diisi"),
-});
-
-export type RegisterFormData = z.infer<typeof registerSchema>;
-
-export function useRegister() {
-    const [form, setForm] = useState<RegisterFormData>({
-        username: "",
-        email: "",
-        npm: "",
-        password: "",
-        role: "mahasiswa",
-        kelas: "",
+    npm: z.string().min(1, "NPM wajib diisi"),
+    password: z.string().min(6, "Minimal 6 karakter"),
+    role: z.enum(["mahasiswa", "dosen"], {
+        message: "Role tidak valid",
+    }),
     });
 
+
+    type RegisterDto = z.infer<typeof schema>;
+
+    export const useRegister = () => {
     const [loading, setLoading] = useState(false);
 
-    const handleChange = (field: keyof RegisterFormData, value: string) => {
-        setForm((prev) => ({
-        ...prev,
-        [field]: value,
-        }));
-    };
+    const [errors, setErrors] = useState<
+        Partial<Record<keyof RegisterDto, string>>
+    >({});
 
-    const handleRegister = async () => {
-        // validasi dengan ZOD
-        const result = registerSchema.safeParse(form);
+    const router = useRouter();
+
+    const register = async (data: RegisterDto) => {
+        setErrors({});
+
+        const result = schema.safeParse(data);
 
         if (!result.success) {
-        const message = result.error.issues[0].message;
-        toast.error(message);
+        const fieldErrors: Partial<Record<keyof RegisterDto, string>> = {};
+
+        result.error.issues.forEach((err) => {
+            const field = err.path[0] as keyof RegisterDto;
+            if (!fieldErrors[field]) {
+            fieldErrors[field] = err.message;
+            }
+        });
+
+        setErrors(fieldErrors);
+        toast.error("Periksa kembali form");
         return;
         }
 
         try {
-            setLoading(true);
+        setLoading(true);
 
-            const res = await authService.register(result.data);
+        await registerService.register(result.data);
 
-            toast.success(res?.message || "Register berhasil");
-
-            // reset form
-            setForm({
-                username: "",
-                email: "",
-                npm: "",
-                password: "",
-                role: "mahasiswa",
-                kelas: "",
-            });
+        toast.success("Registrasi berhasil 🎉");
+        router.push("/login");
         } catch (err: any) {
         toast.error(
-            err?.response?.data?.message || "Terjadi kesalahan server"
+            err?.response?.data?.message || "Registrasi gagal"
         );
         } finally {
         setLoading(false);
@@ -74,9 +67,8 @@ export function useRegister() {
     };
 
     return {
-        form,
+        register,
         loading,
-        handleChange,
-        handleRegister,
+        errors,
     };
-}
+};

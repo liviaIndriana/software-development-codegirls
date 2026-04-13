@@ -1,9 +1,8 @@
-import { RegisterDto } from "../types/register.type";
 import { api } from "@/lib/axios";
+import type { RegisterDto,RegisterResponse } from "../types/register.type";
 
-
-export const authService = {
-  register: async (data: RegisterDto) => {
+export const registerService = {
+  register: async (data: RegisterDto): Promise<RegisterResponse> => {
     const res = await api.post("/register", data);
     return res.data;
   },

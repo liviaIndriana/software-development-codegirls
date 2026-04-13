@@ -1,123 +1,128 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
+import { useLogin } from "../hooks/useLogin";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useLogin } from "../hooks/useLogin";
+import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
-export default function LoginForm() {
+export default function LoginPage() {
     const { login, loading, errors } = useLogin();
-    const [form, setForm] = useState({email: "",password: "",});
-    {/*Update Input*/}
-    const handleChange = (key: string, value: string) => 
-        {setForm((prev) => ({...prev,[key]: value,}));
-    };
 
-    {/*Handle Submit*/}
-    const handleSubmit = async () => {
-        await login(form);
-    };
+    const [form, setForm] = useState({
+        username: "",
+        password: "",
+    });
 
-    {/* Styling*/}
-    const inputClass = (field: "email" | "password") =>
-        `h-9 text-sm border transition-all ${
-        errors[field]
-            ? "border-red-500 focus-visible:ring-red-500"
-            : "border-gray-300"
-        } focus-visible:ring-1 focus-visible:ring-[#2F53EB]`;
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        login(form);
+    };
 
     return (
-        <main className="min-h-screen bg-[#F5F6FA] relative">
+        <div className="flex min-h-screen w-full flex-col md:flex-row font-sans overflow-x-hidden bg-white">
         
-        {/* Logo */}
-        <h1 className="text-[28px] absolute top-10 left-20 text-[#2F53EB] font-semibold">
+        {/*SISI KIRI*/}
+        <div className="relative flex w-full flex-col justify-start p-8 sm:p-12 md:w-[60%] lg:p-24 pt-12 md:pt-16 lg:pt-20">
+            
+            {/* Logo SiRuka */}
+            <div className="text-xl sm:text-2xl font-bold mb-12 md:mb-20 lg:mb-32" style={{ color: "#30418F" }}>
             SiRuka
-        </h1>
+            </div>
 
-        {/* Center Content */}
-        <div className="flex items-center justify-center min-h-screen">
-            <div className="w-full max-w-xs flex flex-col items-center">
+            <div className="z-10">
+            <h1 
+                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-[900] leading-[1.0] tracking-tighter" 
+                style={{ color: "#30418F" }}
+            >
+                Hello!<br />
+                Selamat<br />
+                Datang!
+            </h1>
+            </div>
+        </div>
 
-            {/* Title */}
-            <h2 className="text-[28px] font-bold text-black">
-                Sign In
-            </h2>
-
-            <p className="text-[12px] text-gray-600 mt-1 mb-6 text-center">
-                Masukkan kredensial untuk mengakses sistem
-            </p>
+        {/* SISI KANAN*/}
+        <div 
+            className="flex w-full flex-1 items-center justify-center p-6 sm:p-10 md:w-[40%] md:min-h-screen"
+            style={{ backgroundColor: "#30418F" }}
+        >
+            <div className="w-full max-w-[320px] sm:max-w-[380px] space-y-8 sm:space-y-10 text-center text-white py-10 md:py-0">
+            
+            {/* Header Login */}
+            <div className="space-y-3">
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">Login</h2>
+                <p className="text-xs sm:text-sm font-light opacity-80 leading-relaxed px-4 sm:px-0">
+                Masukkan kredensial Anda untuk mengakses dashboard
+                </p>
+            </div>
 
             {/* Form */}
-            <div className="w-full space-y-4">
-
-                {/* Email */}
-                <div className="space-y-1">
-                <label className="text-[13px] text-gray-700">
-                    Email
-                </label>
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 text-left">
+                
+                {/* Username */}
+                <div className="space-y-2">
+                <Label htmlFor="username" className="text-base sm:text-lg font-medium ml-1">
+                    Username
+                </Label>
                 <Input
-                    placeholder="Masukkan email"
-                    value={form.email}
+                    id="username"
+                    type="text"
+                    value={form.username}
                     onChange={(e) =>
-                    handleChange("email", e.target.value)
+                    setForm({ ...form, username: e.target.value })
                     }
-                    className={inputClass("email")}
+                    className="h-12 sm:h-14 w-full bg-white text-black focus-visible:ring-0 rounded-xl sm:rounded-2xl border-[3px]"
+                    style={{ borderColor: "#F4B539" }}
                 />
-                {errors.email && (
-                    <p className="text-xs text-red-500">
-                    {errors.email}
-                    </p>
+                {errors.username && (
+                    <p className="text-xs text-red-300 ml-1">{errors.username}</p>
                 )}
                 </div>
 
                 {/* Password */}
-                <div className="space-y-1">
-                <label className="text-[13px] text-gray-700">
+                <div className="space-y-2">
+                <Label htmlFor="password" className="text-base sm:text-lg font-medium ml-1">
                     Password
-                </label>
+                </Label>
                 <Input
+                    id="password"
                     type="password"
-                    placeholder="Masukkan password"
                     value={form.password}
                     onChange={(e) =>
-                    handleChange("password", e.target.value)
+                    setForm({ ...form, password: e.target.value })
                     }
-                    className={inputClass("password")}
+                    className="h-12 sm:h-14 w-full bg-white text-black focus-visible:ring-0 rounded-xl sm:rounded-2xl border-[3px]"
+                    style={{ borderColor: "#F4B539" }}
                 />
                 {errors.password && (
-                    <p className="text-xs text-red-500">
-                    {errors.password}
-                    </p>
+                    <p className="text-xs text-red-300 ml-1">{errors.password}</p>
                 )}
                 </div>
 
                 {/* Button */}
-                <Button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="w-full h-9 mt-2 bg-[#2F53EB] hover:bg-[#2443c7] text-white text-sm"
+                <div className="flex justify-center pt-4">
+                <Button 
+                    type="submit"
+                    disabled={loading}
+                    className="h-12 w-48 rounded-2xl text-lg font-bold shadow-lg transition-transform hover:scale-105 active:scale-95"
+                    style={{ backgroundColor: "#F4721E", color: "white" }}
                 >
-                {loading ? "Loading..." : "Sign In"}
+                    {loading ? "Loading..." : "Login"}
                 </Button>
-            </div>
+                </div>
+            </form>
 
             {/* Footer */}
-            <p className="text-[12px] text-gray-600 mt-6">
+            <p className="text-xs sm:text-sm font-light">
                 Belum punya akun?{" "}
-                <Link
-                href="/register"
-                className="text-[#2F53EB] hover:underline"
-                >
-                Sign Up
-                </Link>
+                <span className="font-bold cursor-pointer hover:underline">
+                <Link href="/register">Sign Up</Link>
+                </span>
             </p>
-
             </div>
         </div>
-        </main>
+        </div>
     );
 }
-
-
-

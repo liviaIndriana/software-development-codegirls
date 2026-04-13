@@ -8,15 +8,17 @@ import { authService } from "../services/auth.service";
 import { useRouter } from "next/navigation";
 
 const schema = z.object({
-    email: z.string().email("Email tidak valid"),
-    password: z.string().min(1, "Password wajib diisi"),
+  username: z.string().min(1, "Username wajib diisi"),
+  password: z.string().min(1, "Password wajib diisi"),
 });
 
 type LoginDto = z.infer<typeof schema>;
 
 export const useLogin = () => {
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<Partial<Record<keyof LoginDto, string>>>({});
+    const [errors, setErrors] = useState<
+        Partial<Record<keyof LoginDto, string>>
+    >({});
     const router = useRouter();
 
     const login = async (data: LoginDto) => {
@@ -35,15 +37,14 @@ export const useLogin = () => {
         }
 
         try {
-            setLoading(true);
+        setLoading(true);
             const res = await loginService.login(result.data);
             authService.setToken(res.accessToken);
+
             toast.success("Login berhasil");
             router.push("/dashboard");
         } catch (err: any) {
-        toast.error(
-            err?.response?.data?.message || "Login gagal"
-        );
+        toast.error(err?.response?.data?.message || "Login gagal");
         } finally {
         setLoading(false);
         }
