@@ -1,12 +1,9 @@
 export type LoginDto = {
-    username: string;
+    npm_nidn: string;
     password: string;
 };
 
 export type LoginResponse = {
-    accessToken: string;
-    user: {
-        id: number;
-        username: string;
-    };
+    message: string;
+    token: string;
 };

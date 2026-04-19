@@ -8,17 +8,15 @@ import { authService } from "../services/auth.service";
 import { useRouter } from "next/navigation";
 
 const schema = z.object({
-  username: z.string().min(1, "Username wajib diisi"),
-  password: z.string().min(1, "Password wajib diisi"),
+    npm_nidn: z.string().min(1, "NPM/NIDN wajib diisi"),
+    password: z.string().min(1, "Password wajib diisi"),
 });
 
 type LoginDto = z.infer<typeof schema>;
 
 export const useLogin = () => {
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<
-        Partial<Record<keyof LoginDto, string>>
-    >({});
+    const [errors, setErrors] = useState<Partial<Record<keyof LoginDto, string>>>({});
     const router = useRouter();
 
     const login = async (data: LoginDto) => {
@@ -26,25 +24,44 @@ export const useLogin = () => {
 
         const result = schema.safeParse(data);
         if (!result.success) {
-            const fieldErrors: typeof errors = {};
-            result.error.issues.forEach((err) => {
-                const field = err.path[0] as keyof LoginDto;
-                fieldErrors[field] = err.message;
-            });
-            setErrors(fieldErrors);
-            toast.error("Periksa kembali form");
-            return;
+        const fieldErrors: typeof errors = {};
+        result.error.issues.forEach((err) => {
+            const field = err.path[0] as keyof LoginDto;
+            fieldErrors[field] = err.message;
+        });
+        setErrors(fieldErrors);
+        toast.error("Periksa kembali form");
+        return;
         }
 
         try {
         setLoading(true);
-            const res = await loginService.login(result.data);
-            authService.setToken(res.accessToken);
 
-            toast.success("Login berhasil");
-            router.push("/dashboard");
+        const res = await loginService.login(result.data);
+
+        console.log("LOGIN RESPONSE:", res);
+
+        const token = res?.token;
+
+        if (!token) {
+            console.log("FULL RESPONSE DEBUG:", res);
+            toast.error("Token tidak ditemukan dari backend");
+            return;
+        }
+
+        authService.setToken(token);
+
+        toast.success("Login berhasil");
+        router.push("/dashboard");
+
         } catch (err: any) {
-        toast.error(err?.response?.data?.message || "Login gagal");
+        console.log("LOGIN ERROR FULL:", err?.response?.data || err);
+
+        toast.error(
+            err?.response?.data?.message ||
+            err?.response?.data?.error ||
+            "Login gagal"
+        );
         } finally {
         setLoading(false);
         }

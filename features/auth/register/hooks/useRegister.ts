@@ -4,24 +4,21 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { registerService } from "../services/Register.service"; 
-
+import { registerService } from "../services/Register.service";
 
 const schema = z.object({
-    username: z.string().min(1, "Username wajib diisi"),
+    nama: z.string().min(1, "Nama wajib diisi"),
     email: z.string().email("Email tidak valid"),
-    kelas: z.string().min(1, "Kelas wajib diisi"),
-    npm: z.string().min(1, "NPM wajib diisi"),
+    npm_nidn: z.string().min(1, "NPM/NIDN wajib diisi"),
     password: z.string().min(6, "Minimal 6 karakter"),
     role: z.enum(["mahasiswa", "dosen"], {
         message: "Role tidak valid",
     }),
     });
 
-
     type RegisterDto = z.infer<typeof schema>;
 
-    export const useRegister = () => {
+export const useRegister = () => {
     const [loading, setLoading] = useState(false);
 
     const [errors, setErrors] = useState<
@@ -58,9 +55,7 @@ const schema = z.object({
         toast.success("Registrasi berhasil 🎉");
         router.push("/login");
         } catch (err: any) {
-        toast.error(
-            err?.response?.data?.message || "Registrasi gagal"
-        );
+        toast.error(err?.response?.data?.error || "Registrasi gagal");
         } finally {
         setLoading(false);
         }
