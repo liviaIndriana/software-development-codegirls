@@ -30,6 +30,7 @@ export const useRegister = () => {
     const register = async (data: RegisterDto) => {
         setErrors({});
 
+        //memastikan data dari form valid sebelum dikirim ke server
         const result = schema.safeParse(data);
 
         if (!result.success) {
@@ -52,7 +53,7 @@ export const useRegister = () => {
 
         await registerService.register(result.data);
 
-        toast.success("Registrasi berhasil 🎉");
+        toast.success("Registrasi berhasil");
         router.push("/login");
         } catch (err: any) {
         toast.error(err?.response?.data?.error || "Registrasi gagal");

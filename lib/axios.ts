@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//Menghubungkan frontend dengan backend melalui HTTP request (API)
 export const api = axios.create({
   baseURL: "http://localhost:3001",
   headers: {

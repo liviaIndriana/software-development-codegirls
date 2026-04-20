@@ -76,14 +76,16 @@ export default function LoginPage() {
                                 id="npm_nidn"
                                 type="text"
                                 value={form.npm_nidn}
+                                // onChange digunakan untuk mendeteksi perubahan 
+                                // nilai pada elemen input (
                                 onChange={(e) =>
                                     setForm({ ...form, npm_nidn: e.target.value })
                                 }
-                                className="h-12 sm:h-14 w-full bg-white text-black text-sm sm:text-base rounded-xl sm:rounded-2xl border-[3px]"
+                                className="h-12 sm:h-14 w-full bg-white text-black text-sm sm:text-base border-[3px] rounded-xl sm:rounded-2xl focus-visible:ring-0"
                                 style={{ borderColor: "#F4B539" }}
                             />
                             {errors.npm_nidn && (
-                                <p className="text-xs text-red-300 ml-1">
+                                <p className="text-xs text-red-500 ml-1">
                                     {errors.npm_nidn}
                                 </p>
                             )}
@@ -97,16 +99,12 @@ export default function LoginPage() {
                             <Input
                                 type="password"
                                 value={form.password}
-                                onChange={(e) =>
-                                    setForm({ ...form, password: e.target.value })
-                                }
-                                className="h-12 sm:h-14 w-full bg-white text-black text-sm sm:text-base rounded-xl sm:rounded-2xl border-[3px]"
+                                onChange={(e) =>setForm({ ...form, password: e.target.value })}
+                                className="h-12 sm:h-14 w-full bg-white text-black text-sm sm:text-base border-[3px] rounded-xl sm:rounded-2xl focus-visible:ring-0"
                                 style={{ borderColor: "#F4B539" }}
                             />
                             {errors.password && (
-                                <p className="text-xs text-red-300 ml-1">
-                                    {errors.password}
-                                </p>
+                                    <p className="text-xs text-red-500 ml-1">{errors.password}</p>
                             )}
                         </div>
 

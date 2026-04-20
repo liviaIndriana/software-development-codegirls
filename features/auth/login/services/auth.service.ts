@@ -1,4 +1,5 @@
 export const authService = {
+    //menyimpan token
     setToken: (token: string) => {
         localStorage.setItem("access_token", token);
     },
