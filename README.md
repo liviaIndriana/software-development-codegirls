@@ -1,127 +1,36 @@
-# SiRuka : Rancang Bangun Sistem Informasi Peminjaman Ruangan Kuliah Berbasis Web pada Program Studi Teknik Informatika
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-* Frontend: Next.js (UI)
-* Backend: Golang (Fiber)
+## Getting Started
 
----
-
-## 👥 Tim
-
-* Project Manager: Livia Indriana Sari
-* Frontend: Risma Tri Shatya
-* Backend: Diah Aulya Robbi
-
-
----
-
-## 📁 Struktur Project
+First, run the development server:
 
 ```bash
-project-name/
-├── frontend/   # Next.js
-├── backend/    # Golang (Fiber)
-├── docs/       # Dokumentasi
-```
-
----
-
-# 🚀 FRONTEND (Next.js)
-
-## ⚙️ Prerequisites
-
-* Node.js 20+
-* npm / yarn
-* Podman (optional)
-
-## ▶️ Menjalankan Frontend
-
-```bash
-cd frontend
-npm install
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Akses di: http://localhost:3000
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## 📜 Scripts
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-* npm run dev → run development
-* npm run build → build production
-* npm run start → run production
-* npm run lint → cek code
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
----
+## Learn More
 
-# 🚀 BACKEND (Golang)
+To learn more about Next.js, take a look at the following resources:
 
-## ▶️ Menjalankan Backend (Untuk User)
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-```bash
-cd backend
-go mod tidy
-go run main.go
-```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Default: http://localhost:30001 (sesuaikan)
+## Deploy on Vercel
 
----
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## 🛠️ Setup Backend (Developer Only - Dari Nol)
-
-### 1. Inisialisasi Module
-
-```bash
-go mod init backend-codegirls
-```
-
-### 2. Install Dependency
-
-```bash
-go get github.com/gofiber/fiber/v2
-go get gorm.io/gorm
-go get gorm.io/driver/mysql
-go get golang.org/x/crypto/bcrypt
-go get github.com/golang-jwt/jwt/v5
-go get github.com/joho/godotenv
-go get github.com/go-playground/validator/v10
-```
-
-### 3. Rapikan Dependency
-
-```bash
-go mod tidy
-```
-
----
-
-## 🐳 Docker (Optional)
-
-```bash
-podman build -t backend-codegirls-img -f .devcontainer/Dockerfile .
-```
-
----
-
-## 📌 Fitur
-
-* Autentikasi pengguna (login & registrasi)
-* Melihat jadwal dan ketersediaan ruangan
-* Pengajuan peminjaman ruangan (jadwal & non-jadwal)
-* Manajemen status & riwayat peminjaman
-* Persetujuan peminjaman oleh admin
-* Pengelolaan data pengguna, ruangan, dan jadwal
-* Integrasi jadwal dan peminjaman untuk mencegah bentrok
-
----
-
-## 📄 Dokumentasi
-
-Lihat folder `docs/`
-
----
-
-## 🔄 Workflow Git
-
-* feature/*
-* develop
-* main
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
