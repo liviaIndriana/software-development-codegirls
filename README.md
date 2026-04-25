@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # SiRuka : Rancang Bangun Sistem Informasi Peminjaman Ruangan Kuliah Berbasis Web pada Program Studi Teknik Informatika
 
 * Frontend: Next.js (UI)
@@ -124,9 +123,4 @@ Lihat folder `docs/`
 ## 🔄 Workflow Git
 
 * feature/*
-* main-codegirls
-=======
-PM : Livia  
-BE : Diah  
-FE : Risma
->>>>>>> 88822f1 (add backend)
+* main
