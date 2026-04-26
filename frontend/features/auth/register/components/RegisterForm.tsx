@@ -60,7 +60,7 @@ export default function SignUpPage() {
                             {/* nama */}
                             <div className="space-y-2 md:col-span-2">
                                 <Label className="text-sm sm:text-base font-medium ml-1 text-[#30418F]">
-                                    nama
+                                    Nama
                                 </Label>
                                 <Input
                                     value={form.nama}
