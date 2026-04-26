@@ -123,4 +123,4 @@ Lihat folder `docs/`
 ## 🔄 Workflow Git
 
 * feature/*
-
+* main
