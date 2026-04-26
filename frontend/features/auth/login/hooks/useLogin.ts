@@ -16,54 +16,68 @@ type LoginDto = z.infer<typeof schema>;
 
 export const useLogin = () => {
     const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState<Partial<Record<keyof LoginDto, string>>>({});
+    const [errors, setErrors] = useState<
+        Partial<Record<keyof LoginDto, string>>
+    >({});
     const router = useRouter();
 
     const login = async (data: LoginDto) => {
         setErrors({});
 
+        // validasi
         const result = schema.safeParse(data);
         if (!result.success) {
-        const fieldErrors: typeof errors = {};
-        result.error.issues.forEach((err) => {
-            const field = err.path[0] as keyof LoginDto;
-            fieldErrors[field] = err.message;
-        });
-        setErrors(fieldErrors);
-        toast.error("Periksa kembali form");
-        return;
-        }
-
-        try {
-        setLoading(true);
-
-        const res = await loginService.login(result.data);
-
-        console.log("LOGIN RESPONSE:", res);
-
-        const token = res?.token;
-
-        if (!token) {
-            console.log("FULL RESPONSE DEBUG:", res);
-            toast.error("Token tidak ditemukan dari backend");
+            const fieldErrors: typeof errors = {};
+            result.error.issues.forEach((err) => {
+                const field = err.path[0] as keyof LoginDto;
+                fieldErrors[field] = err.message;
+            });
+            setErrors(fieldErrors);
+            toast.error("Periksa kembali form");
             return;
         }
 
-        authService.setToken(token);
+        try {
+            setLoading(true);
 
-        toast.success("Login berhasil");
-        router.push("/dashboard");
+            const res = await loginService.login(result.data);
+
+            console.log("LOGIN RESPONSE:", res);
+
+            const token = res?.token;
+            const user = res?.user;
+
+            // Validasi
+            if (!token || !user) {
+                console.log("FULL RESPONSE DEBUG:", res);
+                toast.error("Token / user tidak ditemukan");
+                return;
+            }
+            // simpan Token
+            authService.setToken(token);
+            authService.setUser(user);
+
+            toast.success("Login berhasil");
+
+            // Redirect ke dashbard seuai role
+            if (user.role === "admin") {
+                router.push("/dashboard/admin");
+            } else if (user.role === "dosen" || user.role === "mahasiswa") {
+                router.push("/dashboard/user");
+            } else {
+                router.push("/");
+            }
 
         } catch (err: any) {
-        console.log("LOGIN ERROR FULL:", err?.response?.data || err);
+            console.log("LOGIN ERROR FULL:", err?.response?.data || err);
 
-        toast.error(
-            err?.response?.data?.message ||
-            err?.response?.data?.error ||
-            "Login gagal"
-        );
+            toast.error(
+                err?.response?.data?.message ||
+                err?.response?.data?.error ||
+                "Login gagal"
+            );
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     };
 
