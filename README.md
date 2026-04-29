@@ -5,7 +5,7 @@
 
 ---
 
-## 👥 Tim
+## Tim
 
 * Project Manager: Livia Indriana Sari
 * Frontend: Risma Tri Shatya
@@ -14,7 +14,7 @@
 
 ---
 
-## 📁 Struktur Project
+## Struktur Project
 
 ```bash
 project-name/
@@ -25,15 +25,15 @@ project-name/
 
 ---
 
-# 🚀 FRONTEND (Next.js)
+# FRONTEND (Next.js)
 
-## ⚙️ Prerequisites
+## Prerequisites
 
 * Node.js 20+
 * npm / yarn
-* Podman (optional)
+* Podman
 
-## ▶️ Menjalankan Frontend
+## Menjalankan Frontend
 
 ```bash
 cd frontend
@@ -43,7 +43,7 @@ npm run dev
 
 Akses di: http://localhost:3000
 
-## 📜 Scripts
+## Scripts
 
 * npm run dev → run development
 * npm run build → build production
@@ -52,9 +52,9 @@ Akses di: http://localhost:3000
 
 ---
 
-# 🚀 BACKEND (Golang)
+# BACKEND (Golang)
 
-## ▶️ Menjalankan Backend (Untuk User)
+## Menjalankan Backend (Untuk User)
 
 ```bash
 cd backend
@@ -62,11 +62,11 @@ go mod tidy
 go run main.go
 ```
 
-Default: http://localhost:30001 (sesuaikan)
+Default: http://localhost:30001
 
 ---
 
-## 🛠️ Setup Backend (Developer Only - Dari Nol)
+## Setup Backend (Developer Only - Dari Nol)
 
 ### 1. Inisialisasi Module
 
@@ -94,7 +94,7 @@ go mod tidy
 
 ---
 
-## 🐳 Docker (Optional)
+## Docker
 
 ```bash
 podman build -t backend-codegirls-img -f .devcontainer/Dockerfile .
@@ -102,7 +102,7 @@ podman build -t backend-codegirls-img -f .devcontainer/Dockerfile .
 
 ---
 
-## 📌 Fitur
+## Fitur
 
 * Autentikasi pengguna (login & registrasi)
 * Melihat jadwal dan ketersediaan ruangan
@@ -114,13 +114,13 @@ podman build -t backend-codegirls-img -f .devcontainer/Dockerfile .
 
 ---
 
-## 📄 Dokumentasi
+## Dokumentasi
 
 Lihat folder `docs/`
 
 ---
 
-## 🔄 Workflow Git
+## Workflow Git
 
 * feature/*
 * main
