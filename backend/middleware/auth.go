@@ -12,7 +12,6 @@ var SECRET_KEY = []byte("secret123")
 
 func AdminOnly() fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		// ambil token dari header
 		authHeader := c.Get("Authorization")
 
 		if authHeader == "" {
