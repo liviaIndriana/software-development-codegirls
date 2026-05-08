@@ -33,7 +33,11 @@ func Register(db *gorm.DB) fiber.Handler {
 				"error": "NPM/NIDN sudah digunakan",
 			})
 		}
-
+		if err := db.Where("email = ?", user.Email).First(&existing).Error; err == nil {
+			return c.Status(400).JSON(fiber.Map{
+				"error": "Email sudah digunakan",
+			})
+		}
 		// HASH PASSWORD
 		hashedPassword, err := utils.HashPassword(user.Password)
 		if err != nil {

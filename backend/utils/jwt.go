@@ -6,10 +6,10 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var SECRET_KEY = []byte("secret123") // nanti pindah ke .env
+var SECRET_KEY = []byte("secret123")
 
 func GenerateToken(userID uint, npmNidn string, role string) (string, error) {
-	// contoh pakai jwt
+
 	claims := jwt.MapClaims{
 		"user_id":  userID,
 		"npm_nidn": npmNidn,
@@ -19,5 +19,5 @@ func GenerateToken(userID uint, npmNidn string, role string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	return token.SignedString([]byte("SECRET_KEY"))
+	return token.SignedString(SECRET_KEY)
 }

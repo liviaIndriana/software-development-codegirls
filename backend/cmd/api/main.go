@@ -22,6 +22,9 @@ func main() {
 	// migrate tabel user
 	db.AutoMigrate(&models.User{})
 
+	// migrate tabel peminjaman
+	db.AutoMigrate(&models.Peminjaman{})
+
 	// init app
 	app := fiber.New()
 
