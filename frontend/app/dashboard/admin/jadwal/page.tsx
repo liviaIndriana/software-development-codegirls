@@ -1,9 +1,11 @@
 "use client";
 import { useAuth } from "@/features/auth/login/hooks/use-auth";
-import RuanganTable from "@/features/ruangan/components/RuanganTable"
+import JadwalForm from "@/features/jadwal/components/jadwal-form"
 
-export default function HistoryPage() {
+export default function JadwalPage() {
   const { isChecking } = useAuth();
   if (isChecking) return null; 
-  return <RuanganTable/>
+  return (
+        <JadwalForm />
+  )
 }
