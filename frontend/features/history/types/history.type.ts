@@ -5,6 +5,7 @@ export type History = {
     id: number;
     nama: string;
     kelas: string;
+    ruangan: string;
     tanggal: string;
     waktu_mulai: string;
     waktu_berakhir: string;
