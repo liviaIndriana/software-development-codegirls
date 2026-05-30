@@ -7,9 +7,10 @@ export async function getHistories(): Promise<History[]> {
 }
 
 export async function updateHistoryStatus(
-    id: number, //bisa diubah ke string jika id di backend berupa string
+    id: number,
     status: HistoryStatus
 ) {
     const res = await api.patch(`/history/${id}`, { status })
     return res.data
 }
+

@@ -33,9 +33,9 @@ export default function HistoryTable() {
                 {/* HEADER */}
                 <TableHeader className="sticky top-0 bg-white z-10 border-b">
                   <TableRow>
-                    <TableHead className="px-6 py-4 text-[#30418F] font-semibold">No</TableHead>
                     <TableHead className="px-6 py-4 text-[#30418F] font-semibold">Nama</TableHead>
                     <TableHead className="px-6 py-4 text-[#30418F] font-semibold">Kelas</TableHead>
+                    <TableHead className="px-6 py-4 text-[#30418F] font-semibold">Ruangan</TableHead>
                     <TableHead className="px-6 py-4 text-[#30418F] font-semibold">Tanggal</TableHead>
                     <TableHead className="px-6 py-4 text-[#30418F] font-semibold">Mulai</TableHead>
                     <TableHead className="px-6 py-4 text-[#30418F] font-semibold">Selesai</TableHead>
@@ -66,9 +66,9 @@ export default function HistoryTable() {
                         key={item.id}
                         className={i % 2 === 0 ? "bg-white" : "bg-[#FAFAFA]"}
                       >
-                        <TableCell className="px-6 py-4">{i + 1}</TableCell>
                         <TableCell className="px-6 py-4">{item.nama}</TableCell>
                         <TableCell className="px-6 py-4">{item.kelas}</TableCell>
+                        <TableCell className="px-6 py-4">{item.ruangan}</TableCell>
                         <TableCell className="px-6 py-4">{item.tanggal}</TableCell>
                         <TableCell className="px-6 py-4">{item.waktu_mulai}</TableCell>
                         <TableCell className="px-6 py-4">{item.waktu_berakhir}</TableCell>
