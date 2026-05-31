@@ -9,6 +9,7 @@ type Peminjaman struct {
 	Tanggal         time.Time `json:"tanggal"`
 	WaktuMulai      string    `json:"waktu_mulai"`
 	WaktuBerakhir   string    `json:"waktu_berakhir"`
+	Ruangan         string    `json:"ruangan"`
 	KodeProyektor   string    `json:"kode_proyektor"`
 	Keterangan      string    `json:"keterangan"`
 	JenisPeminjaman string    `json:"jenis_peminjaman"`

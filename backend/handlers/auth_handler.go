@@ -48,7 +48,7 @@ func Register(db *gorm.DB) fiber.Handler {
 
 		user.Password = hashedPassword
 
-		// menyimpan ke database
+		// simpan ke database
 		if err := db.Create(&user).Error; err != nil {
 			return c.Status(500).JSON(fiber.Map{
 				"error": "Gagal menyimpan user",
