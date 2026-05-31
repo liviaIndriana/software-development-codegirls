@@ -29,7 +29,7 @@ func NewDatabase() *gorm.DB {
 		user, pass, host, port, name,
 	)
 
-	// koneksi ke Database
+	// koneksi ke DB
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Gagal koneksi ke database:", err)
