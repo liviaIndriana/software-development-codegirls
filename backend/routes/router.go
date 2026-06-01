@@ -41,4 +41,10 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	// JADWAL
 	jadwalHandler := &handlers.JadwalHandler{DB: db}
 	api.Post("/jadwal", middleware.AdminOnly(), jadwalHandler.CreateJadwal)
+
+	// MANAJEMEN USER
+	manajemenHandler := &handlers.ManajemenHandler{DB: db}
+	api.Get("/manajemen",middleware.AdminOnly(),manajemenHandler.GetUsers,)
+	api.Delete("/manajemen/:id_user",middleware.AdminOnly(),manajemenHandler.DeleteUser,)
+	api.Patch("/manajemen/reset-password/:id_user",middleware.AdminOnly(),manajemenHandler.ResetPassword,)
 }
