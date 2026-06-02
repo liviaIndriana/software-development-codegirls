@@ -37,6 +37,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	api.Get("/ruangan", middleware.AdminOnly(), ruanganHandler.GetRuangan)
 	api.Put("/ruangan/:id", middleware.AdminOnly(), ruanganHandler.UpdateRuangan)
 	api.Delete("/ruangan/:id", middleware.AdminOnly(), ruanganHandler.DeleteRuangan)
+	api.Get("/user-ruangan",ruanganHandler.GetRuangan,)
 
 	// JADWAL
 	jadwalHandler := &handlers.JadwalHandler{DB: db}
