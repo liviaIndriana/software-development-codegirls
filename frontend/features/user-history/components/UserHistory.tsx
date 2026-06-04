@@ -42,31 +42,11 @@ export default function UserHistory() {
       </div>
 
       {/* CARD */}
-      <Card className="
-        w-full
-        rounded-[30px]
-        border border-[#EAECF0]
-        shadow-sm
-        overflow-hidden
-        bg-white
-      ">
-
-        {/* TOP HEADER */}
-        <div className="
-          px-6 py-5
-          bg-gradient-to-r
-          from-[#30418F]
-          to-[#4458B8]
-          border-b
-        ">
-          <div className="flex items-center gap-4 text-white">
-
-            <div className="
-              w-12 h-12
-              rounded-2xl
-              bg-white/15
-              flex items-center justify-center
-            ">
+      <Card className="rounded-[36px] border border-[#DCDCDC] bg-white shadow-sm overflow-hidden p-0">
+      {/* TOP HEADER */}
+      <div className="bg-gradient-to-r from-[#30418F] to-[#4458B8] px-8 py-7">
+        <div className="flex items-center gap-4 text-white">
+          <div className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center">
               <History size={24} />
             </div>
 

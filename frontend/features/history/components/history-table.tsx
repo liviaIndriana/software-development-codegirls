@@ -54,7 +54,7 @@ export default function HistoryTable() {
                         Loading...
                       </TableCell>
                     </TableRow>
-                  ) : data.length === 0 ? (
+                  ) : (data ?? []).length === 0? (
                     <TableRow>
                       <TableCell colSpan={9} className="text-center py-10">
                         Tidak ada data

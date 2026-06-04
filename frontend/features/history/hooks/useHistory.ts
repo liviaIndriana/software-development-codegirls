@@ -16,11 +16,21 @@ export function useHistory() {
     async function fetchData() {
         try {
             const res = await getHistories()
-            setData(res)
+
+            console.log("HISTORY:", res)
+
+            setData(
+                Array.isArray(res)
+                    ? res
+                    : []
+            )
         } catch (error: any) {
             toast.error(
-                error?.response?.data?.message || "Gagal mengambil data history"
+                error?.response?.data?.message ||
+                "Gagal mengambil data history"
             )
+
+            setData([])
         } finally {
             setLoading(false)
         }

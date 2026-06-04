@@ -18,7 +18,9 @@ export function useUserHistory() {
     try {
       const res = await UserHistoryService()
 
-      setData(res)
+      console.log("HISTORY:", res)
+
+      setData(Array.isArray(res) ? res : [])
     } catch (error: any) {
       toast.error(
         error?.response?.data?.message ||
