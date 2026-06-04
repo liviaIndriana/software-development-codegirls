@@ -2,8 +2,11 @@ package models
 
 import "time"
 
+
 type Peminjaman struct {
 	ID              uint      `json:"id" gorm:"primaryKey"`
+	UserID          uint      `json:"user_id"`
+
 	Nama            string    `json:"nama"`
 	Kelas           string    `json:"kelas"`
 	Tanggal         time.Time `json:"tanggal"`
