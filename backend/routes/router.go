@@ -31,6 +31,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	app.Patch("/history/:id", middleware.AdminOnly(), historyHandler.UpdateStatus)
 	admin.Put("/history/:id/approve", historyHandler.Approve)
 	admin.Put("/history/:id/reject", historyHandler.Reject)
+	app.Post("/peminjaman",middleware.AuthMiddleware(),historyHandler.CreatePeminjaman,)
 
 	// RUANGAN
 	ruanganHandler := &handlers.RuanganHandler{DB: db}
@@ -42,6 +43,8 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	// JADWAL
 	jadwalHandler := &handlers.JadwalHandler{DB: db}
 	api.Post("/jadwal", middleware.AdminOnly(), jadwalHandler.CreateJadwal)
+	api.Get("/jadwal/terjadwal", jadwalHandler.GetTerjadwal)
+	api.Get("/jadwal/tidak-terjadwal", jadwalHandler.GetTidakTerjadwal)
 
 	// MANAJEMEN USER
 	manajemenHandler := &handlers.ManajemenHandler{DB: db}
