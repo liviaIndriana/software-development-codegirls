@@ -3,14 +3,20 @@ import { History, HistoryStatus } from "../types/history.type"
 
 export async function getHistories(): Promise<History[]> {
     const res = await api.get("/history")
-    return res.data
+
+    return Array.isArray(res.data)
+        ? res.data
+        : []
 }
 
 export async function updateHistoryStatus(
     id: number,
     status: HistoryStatus
 ) {
-    const res = await api.patch(`/history/${id}`, { status })
+    const res = await api.patch(
+        `/history/${id}`,
+        { status }
+    )
+
     return res.data
 }
-

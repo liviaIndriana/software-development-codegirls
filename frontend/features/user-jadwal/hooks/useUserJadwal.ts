@@ -75,9 +75,9 @@ type FormErrors = Partial<Record<keyof FormPeminjaman, string>>;
 
 function toMenit(waktu: string): number {
     const [jam, menit] = waktu
-    .replace(".", ":")
-    .split(":")
-    .map(Number);
+        .replace(".", ":")
+        .split(":")
+        .map(Number);
 
   return jam * 60 + (menit || 0);
 }
@@ -94,13 +94,16 @@ function getTanggalDariHari(
     hariMap: Record<string, number>
 ): string {
     const sekarang = new Date();
+
     const currentDay = sekarang.getDay();
     const targetDay = hariMap[namaHari];
 
     let diff = targetDay - currentDay;
+
     if (diff < 0) diff += 7;
 
     const targetDate = new Date(sekarang);
+
     targetDate.setDate(sekarang.getDate() + diff);
 
     return targetDate.toISOString().split("T")[0];
@@ -110,19 +113,29 @@ function getTanggalDariHari(
 export function useJadwalUser() {
     // tab hari 
     const hariSekarang = HARI_INDONESIA[new Date().getDay()];
+
     const defaultHari = TABS_HARI.includes(hariSekarang)
         ? hariSekarang
         : "Senin";
-    const [selectedHari, setSelectedHari] = useState<string>(defaultHari);
+
+    const [selectedHari, setSelectedHari] =
+        useState<string>(defaultHari);
 
     // jadwal terjadwal & tidak terjadwal
-    const [jadwalTerjadwal, setJadwalTerjadwal] = useState<Jadwal[]>([]);
-    const [jadwalTidakTerjadwal, setJadwalTidakTerjadwal] = useState<JadwalTidakTerjadwal[]>([]);
-    const [loadingJadwal, setLoadingJadwal] = useState(false);
+    const [jadwalTerjadwal, setJadwalTerjadwal] =
+        useState<Jadwal[]>([]);
+
+    const [jadwalTidakTerjadwal, setJadwalTidakTerjadwal] =
+        useState<JadwalTidakTerjadwal[]>([]);
+
+    const [loadingJadwal, setLoadingJadwal] =
+        useState(false);
 
     // modal & cell context
     const [modalOpen, setModalOpen] = useState(false);
-    const [cellContext, setCellContext] = useState<CellContext | null>(null);
+
+    const [cellContext, setCellContext] =
+        useState<CellContext | null>(null);
 
     // form peminjaman
     const [form, setForm] = useState<FormPeminjaman>({
@@ -137,11 +150,15 @@ export function useJadwalUser() {
         jenis_peminjaman: "TIDAK_TERJADWAL",
     });
 
-    const [formErrors, setFormErrors] = useState<FormErrors>({});
-    const [loadingSubmit, setLoadingSubmit] = useState(false);
+    const [formErrors, setFormErrors] =
+        useState<FormErrors>({});
+
+    const [loadingSubmit, setLoadingSubmit] =
+        useState(false);
 
     // tanggal terpilih
-    const tanggalDipilih = useMemo(() =>
+    const tanggalDipilih = useMemo(
+        () =>
         getTanggalDariHari(
             selectedHari,
             HARI_MAP
@@ -154,15 +171,24 @@ export function useJadwalUser() {
         setLoadingJadwal(true);
 
         try {
-        const res = await jadwalUserService.getAll();
-        setJadwalTerjadwal(res.terjadwal);
+            const res = await jadwalUserService.getAll();
+
+            console.log("RES TERJADWAL:", res);
+
+            setJadwalTerjadwal(
+                Array.isArray(res?.terjadwal)
+                    ? res.terjadwal
+                    : []
+            );
         } catch (err: any) {
-        toast.error(
-            err?.response?.data?.message ||
-            "Gagal mengambil data jadwal"
-        );
+            toast.error(
+                err?.response?.data?.message ||
+                "Gagal mengambil data jadwal"
+            );
+
+            setJadwalTerjadwal([]);
         } finally {
-        setLoadingJadwal(false);
+            setLoadingJadwal(false);
         }
     }, []);
 
@@ -170,16 +196,24 @@ export function useJadwalUser() {
     const fetchJadwalTidakTerjadwal =
     useCallback(async () => {
         try {
-        const res =
-            await jadwalUserService.getTidakTerjadwal();
-        setJadwalTidakTerjadwal(
-            res.tidak_terjadwal
-        );
+            const res =
+                await jadwalUserService.getTidakTerjadwal();
+
+            console.log("RES:", res);
+            console.log("DATA:", res?.tidak_terjadwal);
+
+            setJadwalTidakTerjadwal(
+                Array.isArray(res?.tidak_terjadwal)
+                    ? res.tidak_terjadwal
+                    : []
+            );
         } catch (err: any) {
-        toast.error(
-            err?.response?.data?.message ||
-            "Gagal mengambil jadwal tidak terjadwal"
-        );
+            toast.error(
+                err?.response?.data?.message ||
+                "Gagal mengambil jadwal tidak terjadwal"
+            );
+
+            setJadwalTidakTerjadwal([]);
         }
     }, []);
 
@@ -191,30 +225,40 @@ export function useJadwalUser() {
         fetchJadwalTidakTerjadwal();
     }, [fetchJadwalTidakTerjadwal]);
 
+
     const jadwalHariIni = useMemo(
         () =>
-        jadwalTerjadwal.filter(
-            (j) =>
-            getNamaHariDariTanggal(
-                j.tanggal
-            ) === selectedHari
-        ),
+            (jadwalTerjadwal ?? []).filter(
+                (j) =>
+                    getNamaHariDariTanggal(
+                        j.tanggal
+                    ) === selectedHari
+            ),
         [jadwalTerjadwal, selectedHari]
     );
 
     const jadwalTidakTerjadwalAktif = useMemo(() => {
         const sekarang = new Date();
-        const jamSekarangMenit = sekarang.getHours() * 60 + sekarang.getMinutes();
-        const tanggalHariIni = sekarang.toISOString().split("T")[0];
 
-        return jadwalTidakTerjadwal.filter((j) => {
+        const jamSekarangMenit =
+            sekarang.getHours() * 60 +
+            sekarang.getMinutes();
+
+        const tanggalHariIni =
+            sekarang.toISOString().split("T")[0];
+
+        return (jadwalTidakTerjadwal ?? []).filter((j) => {
             const namaHariJadwal =
                 getNamaHariDariTanggal(j.tanggal);
+
             if (namaHariJadwal !== selectedHari) {
                 return false;
             }
+
             const tanggalPinjam = new Date(j.tanggal + "T00:00:00");
+
             const hariIni = new Date(tanggalHariIni + "T00:00:00");
+
             const selisihHari = Math.ceil(
                 (tanggalPinjam.getTime() - hariIni.getTime()) /
                 (1000 * 60 * 60 * 24)
@@ -222,7 +266,7 @@ export function useJadwalUser() {
 
             let tanggalMuncul = new Date(tanggalPinjam);
 
-            // jika H-1 atau kurang akan langsung tampil
+            // Jika H-1 atau kurang => langsung tampil
             if (selisihHari <= 1) {
                 tanggalMuncul = hariIni;
             } else {
@@ -234,19 +278,24 @@ export function useJadwalUser() {
                 }
             }
 
-            const tanggalMunculStr = tanggalMuncul.toISOString().split("T")[0];
+            const tanggalMunculStr =
+                tanggalMuncul.toISOString().split("T")[0];
 
             if (tanggalHariIni < tanggalMunculStr) {
-                return false;}
+                return false;
+            }
+
             if (j.tanggal > tanggalHariIni) {
                 return true;
             }
+
             if (j.tanggal === tanggalHariIni) {
                 return (
                     toMenit(j.waktu_berakhir) >
                     jamSekarangMenit
                 );
             }
+
             return false;
         });
     }, [jadwalTidakTerjadwal, selectedHari]);
@@ -258,8 +307,11 @@ export function useJadwalUser() {
         waktu_berakhir: string
     ) => {
         const w = toMenit(waktu);
+
         const mulai = toMenit(waktu_mulai);
+
         const berakhir = toMenit(waktu_berakhir);
+
         return w >= mulai && w <= berakhir;
     };
 
@@ -314,17 +366,23 @@ export function useJadwalUser() {
 
     const handleOpenForm = useCallback(
         (ruangan: string, waktu_mulai: string) => {
-        const cell = getCellJadwal(ruangan,waktu_mulai);
+        const cell = getCellJadwal(
+            ruangan,
+            waktu_mulai
+        );
 
 
         if (cell) {
             const kodeProyektor =
             PROYEKTOR_MAP[cell.jadwal.ruangan] ||
             "";
+
             const ctx: CellContext = {
             ruangan: cell.jadwal.ruangan,
-            waktu_mulai: cell.jadwal.waktu_mulai,
-            waktu_berakhir: cell.jadwal.waktu_berakhir,
+            waktu_mulai:
+                cell.jadwal.waktu_mulai,
+            waktu_berakhir:
+                cell.jadwal.waktu_berakhir,
             jenis: cell.tipe,
             kelas_jadwal: cell.jadwal.kelas,
             };
@@ -336,17 +394,23 @@ export function useJadwalUser() {
             kelas: cell.jadwal.kelas,
             tanggal: tanggalDipilih,
             ruangan: cell.jadwal.ruangan,
-            waktu_mulai: cell.jadwal.waktu_mulai,
-            waktu_berakhir: cell.jadwal.waktu_berakhir,
+            waktu_mulai:
+                cell.jadwal.waktu_mulai,
+            waktu_berakhir:
+                cell.jadwal.waktu_berakhir,
+
             kode_proyektor: kodeProyektor,
+
             keterangan: "",
             jenis_peminjaman: cell.tipe,
-            kelas_jadwal: cell.jadwal.kelas,
+            kelas_jadwal:
+                cell.jadwal.kelas,
             });
         }
         else {
             const kodeProyektor =
             PROYEKTOR_MAP[ruangan] || "";
+
             const ctx: CellContext = {
             ruangan,
             waktu_mulai,
@@ -364,6 +428,7 @@ export function useJadwalUser() {
             waktu_mulai,
             waktu_berakhir: "",
             kode_proyektor: kodeProyektor,
+
             keterangan: "",
             jenis_peminjaman:
                 "TIDAK_TERJADWAL",
@@ -378,7 +443,9 @@ export function useJadwalUser() {
     );
     const handleCloseModal = useCallback(() => {
         setModalOpen(false);
+
         setCellContext(null);
+
         setFormErrors({});
     }, []);
 
@@ -429,8 +496,10 @@ export function useJadwalUser() {
             jadwalTidakTerjadwalAktif.some(
                 (j) =>
                 j.tanggal === data.tanggal &&
-                j.waktu_mulai === data.waktu_mulai &&
-                j.waktu_berakhir === data.waktu_berakhir &&
+                j.waktu_mulai ===
+                    data.waktu_mulai &&
+                j.waktu_berakhir ===
+                    data.waktu_berakhir &&
                 j.kelas
                     .trim()
                     .toUpperCase() !==
@@ -452,8 +521,10 @@ export function useJadwalUser() {
 
     const handleSubmit = useCallback(async () => {
         setFormErrors({});
+
         const { kelas_jadwal, ...payload } =
         form;
+
         const result =
         peminjamanSchema.safeParse(
             payload
@@ -472,6 +543,7 @@ export function useJadwalUser() {
         });
 
         setFormErrors(fieldErrors);
+
         toast.error(
             "Periksa kembali form sebelum menyimpan."
         );
@@ -489,12 +561,15 @@ export function useJadwalUser() {
 
         try {
         setLoadingSubmit(true);
+
         await peminjamanUserService.create(result.data);
+
         toast.success(
             "Peminjaman berhasil diajukan. Menunggu persetujuan admin."
         );
 
         handleCloseModal();
+
         fetchJadwalTidakTerjadwal();
         } catch (err: any) {
         const msg =

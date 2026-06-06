@@ -207,8 +207,7 @@ export default function UserJadwal() {
       </div>
 
       {/* CARD TABLE */}
-      <Card
-      className="rounded-[36px] border border-[#DCDCDC] bg-white shadow-sm overflow-hidden p-0">
+      <Card className="rounded-[36px] border border-[#DCDCDC] bg-white shadow-sm overflow-hidden p-0">
       {/* TOP HEADER */}
       <div className="bg-gradient-to-r from-[#30418F] to-[#4458B8] px-8 py-7">
         <div className="flex items-center gap-4 text-white">
@@ -355,7 +354,7 @@ export default function UserJadwal() {
         open={modalOpen}
         onOpenChange={(open) => !open && handleCloseModal()}
       >
-        <DialogContent className="sm:max-w-[760px] rounded-[30px] border-none p-0 overflow-hidden" aria-describedby={undefined}>
+        <DialogContent className="sm:max-w-[760px] rounded-[30px] border-none p-0 overflow-hidden">
 
           {/* HEADER */}
           <div className="bg-gradient-to-r from-[#30418F] to-[#4458B8] px-8 py-7 text-white">
@@ -422,7 +421,7 @@ export default function UserJadwal() {
                 value={form.kelas}
                 onChange={(val) => handleFormChange("kelas", val)}
                 error={formErrors.kelas}
-                readOnly={form.jenis_peminjaman === "TERJADWAL"}
+                placeholder="Contoh: TI-2A"
               />
 
               <InputField
