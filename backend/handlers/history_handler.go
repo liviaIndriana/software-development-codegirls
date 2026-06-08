@@ -10,7 +10,9 @@ import (
 type HistoryHandler struct {
 	DB *gorm.DB
 }
+
 // GET HISTORY
+
 func (h *HistoryHandler) CreatePeminjaman(c *fiber.Ctx) error {
 	var body struct {
 		Nama            string `json:"nama"`
@@ -64,7 +66,9 @@ func (h *HistoryHandler) CreatePeminjaman(c *fiber.Ctx) error {
 		"data":    data,
 	})
 }
+
 // GetHistory
+
 func (h *HistoryHandler) GetHistory(c *fiber.Ctx) error {
 	var data []models.Peminjaman
 
@@ -90,7 +94,9 @@ func (h *HistoryHandler) GetHistory(c *fiber.Ctx) error {
 
 	return c.JSON(result)
 }
+
 //Update
+
 func (h *HistoryHandler) UpdateStatus(c *fiber.Ctx) error {
 	id := c.Params("id")
 
@@ -158,7 +164,7 @@ func (h *HistoryHandler) Reject(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "Peminjaman ditolak"})
 }
 
-// HISTORY USER
+// UPDATE HISTORY USER
 
 
 func (h *HistoryHandler) GetMyHistory(c *fiber.Ctx) error {
