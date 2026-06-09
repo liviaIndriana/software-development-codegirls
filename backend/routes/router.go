@@ -32,6 +32,7 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	admin.Put("/history/:id/approve", historyHandler.Approve)
 	admin.Put("/history/:id/reject", historyHandler.Reject)
 	app.Post("/peminjaman",middleware.AuthMiddleware(),historyHandler.CreatePeminjaman,)
+	app.Get("/history/me",middleware.AuthMiddleware(),historyHandler.GetMyHistory,)
 
 	// RUANGAN
 	ruanganHandler := &handlers.RuanganHandler{DB: db}
