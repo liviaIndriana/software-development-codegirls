@@ -157,3 +157,42 @@ func (h *HistoryHandler) Reject(c *fiber.Ctx) error {
 
 	return c.JSON(fiber.Map{"message": "Peminjaman ditolak"})
 }
+
+// HISTORY USER
+
+
+func (h *HistoryHandler) GetMyHistory(c *fiber.Ctx) error {
+	userID := c.Locals("user_id").(uint)
+
+	var data []models.Peminjaman
+
+	if err := h.DB.
+		Where("user_id = ?", userID).
+		Find(&data).Error; err != nil {
+
+		return c.Status(500).JSON(fiber.Map{
+			"message": "Server error",
+		})
+	}
+
+	var result []fiber.Map
+
+	for _, item := range data {
+		result = append(result, fiber.Map{
+			"id":               item.ID,
+			"nama":             item.Nama,
+			"kelas":            item.Kelas,
+			"tanggal":          item.Tanggal.Format("2006-01-02"),
+			"waktu_mulai":      item.WaktuMulai,
+			"waktu_berakhir":   item.WaktuBerakhir,
+			"kode_proyektor":   item.KodeProyektor,
+			"keterangan":       item.Keterangan,
+			"jenis_peminjaman": item.JenisPeminjaman,
+			"ruangan":          item.Ruangan,
+			"status":           item.Status,
+		})
+	}
+
+	return c.JSON(result)
+}
+
