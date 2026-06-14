@@ -22,7 +22,7 @@ export default function HomePage() {
 
                         {/* Image */}
                         <Image
-                            src="/TI.png"
+                            src="/TI.PNG"
                             alt="Generation Teknik Informatika"
                             fill
                             priority
