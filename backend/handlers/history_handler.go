@@ -85,6 +85,7 @@ func (h *HistoryHandler) GetHistory(c *fiber.Ctx) error {
 			"keterangan": item.Keterangan,
 			"jenis_peminjaman": item.JenisPeminjaman,
 			"status": item.Status,
+			"ruangan": item.Ruangan,
 		})
 	}
 
